@@ -7,6 +7,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import pickle
+from bs4 import BeautifulSoup
+name = ''
 
 load_dotenv('C:\\Users\\Gabriel\\Documents\\GitHub\\linkedinconnections\\mylogin\\.env')
 passw = os.getenv('senha')
@@ -40,10 +42,20 @@ morepeople = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.X
 
 morepeople.click()
 
-connectbuttons = driver.find_element(By.CLASS_NAME, 'artdeco-button__text')
+idsbtn = ["ember257", "ember258", "ember259", "ember260", "ember261"]
+text = f'Oi tudo bem {name}? Achei seu perfil interessante, parece que compartilhamos ideias semelhantes, acredito que poderíamos trocar idéias no futuro! '
 
-
-
+for id_ in idsbtn:
+    connectbtn = WebDriverWait(driver,5).until(EC.presence_of_element_located((By.ID, id_)))
+    name = driver.find_element(By.XPATH, '/html/body/div[3]/div/div/div[2]/p/span/strong').text
+    '-'.join(name)
+    name = name.split()
+    name = name[0]
+    driver.find_element(By.CSS_SELECTOR,'[aria-label="Adicionar nota"]').click()
+    note = driver.find_element(By.XPATH, '//*[@id="custom-message"]')
+    note.send_keys(text)
+    
+    
 
 nextpage = driver.find_element(By.XPATH, '/html/body/div[5]/div[3]/div[2]/div/div[1]/main/div/div/div[5]/div/div/button[2]/span')
 
